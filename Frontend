@@ -1,0 +1,33 @@
+// HTML, JS code that take two input source and destination and pass these inputs from frontend to backend then backend pass these in function to get minimun distance
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Metro App</title>
+</head>
+<body>
+    <h1>Metro Route Finder</h1>
+    <input type="text" id="source" placeholder="Enter source station">
+    <label for="destination"></label><input type="text" id="destination" placeholder="Enter destination station">
+    <button onclick="findRoute()">Find Route</button>
+    <pre id="result"></pre>
+
+    <script>
+        async function findRoute() {
+            const source = document.getElementById('source').value;
+            const destination = document.getElementById('destination').value;
+
+            const response = await fetch('http://localhost:8080/api/metro/path', {// api hadles in localhost by springboot
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ source, destination })
+            });
+
+            const text = await response.text();
+            document.getElementById('result').textContent = text;
+        }
+    </script>
+</body>
+</html>
